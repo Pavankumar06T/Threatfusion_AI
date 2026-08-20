@@ -1,0 +1,96 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * { box-sizing: border-box; }
+
+  html, body, #root {
+    height: 100%;
+    background-color: #08090d;
+    color: #c8cdd8;
+    font-family: 'Inter', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::-webkit-scrollbar { width: 4px; height: 4px; }
+  ::-webkit-scrollbar-track { background: #0f1117; }
+  ::-webkit-scrollbar-thumb { background: #2a2f40; border-radius: 2px; }
+  ::-webkit-scrollbar-thumb:hover { background: #00d4ff55; }
+}
+
+@layer components {
+  /* ── Panel ── */
+  .panel {
+    @apply bg-panel border border-border rounded-lg;
+  }
+  .panel-glow {
+    @apply panel;
+    box-shadow: 0 0 0 1px #00d4ff10, 0 4px 24px #00000060;
+  }
+
+  /* ── Risk badge ── */
+  .badge-safe     { @apply bg-safe/10 text-safe border border-safe/30 rounded px-2 py-0.5 text-xs font-mono font-semibold; }
+  .badge-suspicious { @apply bg-suspicious/10 text-suspicious border border-suspicious/30 rounded px-2 py-0.5 text-xs font-mono font-semibold; }
+  .badge-high     { @apply bg-high/10 text-high border border-high/30 rounded px-2 py-0.5 text-xs font-mono font-semibold; }
+  .badge-critical { @apply bg-critical/10 text-critical border border-critical/30 rounded px-2 py-0.5 text-xs font-mono font-semibold; }
+
+  /* ── Button ── */
+  .btn-primary {
+    @apply bg-accent text-void font-semibold px-5 py-2.5 rounded-md
+           hover:bg-accent/90 active:scale-95 transition-all duration-150 text-sm;
+  }
+  .btn-ghost {
+    @apply border border-border text-text font-medium px-5 py-2.5 rounded-md
+           hover:bg-muted hover:border-accent/40 active:scale-95 transition-all duration-150 text-sm;
+  }
+  .btn-danger {
+    @apply border border-critical/40 text-critical font-medium px-4 py-2 rounded-md
+           hover:bg-critical/10 active:scale-95 transition-all duration-150 text-sm;
+  }
+
+  /* ── Input ── */
+  .input-field {
+    @apply w-full bg-surface border border-border rounded-md px-3 py-2 text-sm text-text
+           placeholder-dim focus:outline-none focus:border-accent/60 focus:ring-1 focus:ring-accent/20
+           transition-colors duration-150 font-mono;
+  }
+
+  /* ── Score ring ── */
+  .score-ring {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* ── Scan line animation ── */
+  .scan-line {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #00d4ff40, transparent);
+    animation: scan 3s linear infinite;
+  }
+
+  /* ── Status dot ── */
+  .dot-online  { @apply w-2 h-2 rounded-full bg-safe animate-pulse-slow; }
+  .dot-offline { @apply w-2 h-2 rounded-full bg-critical; }
+  .dot-warn    { @apply w-2 h-2 rounded-full bg-suspicious animate-pulse-slow; }
+}
+
+/* ── Scanlines overlay (subtle CRT) ── */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0,0,0,0.04) 2px,
+    rgba(0,0,0,0.04) 4px
+  );
+  z-index: 9999;
+}
